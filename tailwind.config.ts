@@ -17,6 +17,9 @@ const config: Config = {
       animation: {
         'fly-in-left': 'flyInLeft 1s ease-out forwards',
       },
+      transitionDelay: {
+        '120000': '120000ms', // 20 seconds delay
+      },
     },
   },
   plugins: [],

@@ -1,6 +1,34 @@
+"use client";
+
 import Image from "next/image";
+import { useEffect, useRef, useState } from 'react';
 
 export default function Home() {
+
+  const [isVisible, setIsVisible] = useState(false);
+  const textRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (textRef.current) {
+      observer.observe(textRef.current);
+    }
+
+    return () => {
+      if (textRef.current) {
+        observer.unobserve(textRef.current);
+      }
+    };
+  }, []);
+
   return (
     <>
     <section className="relative w-full">
@@ -9,10 +37,15 @@ export default function Home() {
         <source src="/main-vid.mp4" type="video/mp4" />
       </video>
       </div>
-      <div className="absolute top-1/3 left-0 animate-fly-in-left delay-300">
-    <p className="text-white text-4xl md:text-6xl font-bold uppercase mb-10">
-      Release your inner squatch
-    </p>
+      <div
+        ref={textRef}
+        className={`absolute top-1/3 left-0 transition-all duration-1000 delay-120000 ${
+          isVisible ? 'animate-fly-in-left' : 'opacity-0'
+        }`}
+      >
+      <p className="text-white text-6xl md:text-6xl font-bold uppercase mb-10">
+        Release your inner squatch
+      </p>
         <Image src="/orange-logo.png" alt="Squatch Logo" width={200} height={200} className='block my-0 mx-auto' />
       </div>
     </section>
